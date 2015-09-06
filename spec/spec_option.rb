@@ -1,4 +1,5 @@
 # coding: utf-8
+require "ld/form"
 require "ld/form/item"
 require "ld/form/option"
 require "uri"
@@ -39,4 +40,50 @@ describe "LD::Form::Option", "#url" do
     expect(@option.url.to_s).to eq @new_url
   end
 
+end
+
+describe LD::Form::Option, "#add_parent" do
+
+  before :each do
+    @form = LD::Form.new("new form")
+    @item_a = LD::Form::Item.new(@form, "A")
+    @item_b = LD::Form::Item.new(@form, "B")    
+    @option = LD::Form::Option.new("option a")
+  end
+
+  it "その選択肢を持つ設問を追加できる" do
+    expect(@option.parents.length).to eq 0
+    @option.add_parent(@item_a)
+    expect(@option.parents.length).to eq 1
+    @option.add_parent(@item_b)
+    expect(@option.parents.length).to eq 2
+  end
+
+  it "重複した設問は追加できない" do
+    expect(@option.parents.length).to eq 0
+    @option.add_parent(@item_a)
+    expect(@option.parents.length).to eq 1
+    @option.add_parent(@item_a)
+    expect(@option.parents.length).to eq 1
+  end  
+  
+end
+
+describe LD::Form::Option, "#parents" do
+  before :each do
+    @form = LD::Form.new("new form")
+    @item_a = LD::Form::Item.new(@form, "A")
+    @item_b = LD::Form::Item.new(@form, "B")    
+    @option = LD::Form::Option.new("option a")
+  end
+
+  it "その選択肢をもつ設問のリストを返す" do
+    expect(@option.parents.length).to eq 0
+    @option.add_parent(@item_a)
+    expect(@option.parents.length).to eq 1
+  end
+
+  it "返り値の方はArrayのサブクラス" do
+    expect(@option.parents.is_a?(Array)).to be true
+  end
 end
