@@ -4,10 +4,11 @@ module LD
 
     class Option
       
-      attr_reader :label
+      attr_reader :label, :parents
       
       def initialize(label, url=nil)
         @label = label
+        @parents = []
         self.url = url
       end
 
@@ -19,6 +20,10 @@ module LD
       def url(url=nil)
         self.url= url if url
         return @url
+      end
+
+      def add_parent(item)
+        @parents.push(item) unless @parents.index(item)
       end
       
     end
