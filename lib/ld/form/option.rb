@@ -1,6 +1,7 @@
 module LD
   class Form
     require "uri"    
+    require "set"
 
     class Option
       
@@ -8,7 +9,7 @@ module LD
       
       def initialize(label, url=nil)
         @label = label
-        @parents = []
+        @parents = Set.new
         self.url = url
       end
 
@@ -23,7 +24,7 @@ module LD
       end
 
       def add_parent(item)
-        @parents.push(item) unless @parents.index(item)
+        @parents.add(item)
       end
       
     end

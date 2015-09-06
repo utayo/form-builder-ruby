@@ -3,6 +3,7 @@ require "ld/form"
 require "ld/form/item"
 require "ld/form/option"
 require "uri"
+require "set"
 
 describe "LD::Form::Option", "#label" do
 
@@ -83,7 +84,7 @@ describe LD::Form::Option, "#parents" do
     expect(@option.parents.length).to eq 1
   end
 
-  it "返り値の方はArrayのサブクラス" do
-    expect(@option.parents.is_a?(Array)).to be true
+  it "返り値の方はSetのサブクラス" do
+    expect(@option.parents.is_a?(Set)).to be true
   end
 end
