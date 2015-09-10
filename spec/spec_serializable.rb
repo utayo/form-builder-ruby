@@ -11,9 +11,9 @@ describe LD::Form::Serializable, "#to_h" do
     @a = A.new
   end
 
-  it "class属性にクラス名を入れたハッシュを返す" do
+  it "type属性にクラス名を入れたハッシュを返す" do
     expect(@a.to_h).to be_an_instance_of(Hash)
-    expect(@a.to_h[:class]).to eq "A"
+    expect(@a.to_h[:type]).to eq "A"
   end
 
 end
@@ -21,13 +21,13 @@ end
 describe LD::Form::Serializable, "#to_json" do
   before :all do
     @a = A.new
-    @klassname = @a.to_h[:class]
+    @klassname = @a.to_h[:type]
   end
   
   it "#to_h の結果を JSON にして返す" do
     json = @a.to_json
     result = JSON.parse(json)
-    expect(result["class"]).to eq(@klassname)
+    expect(result["type"]).to eq(@klassname)
   end
   
 end
