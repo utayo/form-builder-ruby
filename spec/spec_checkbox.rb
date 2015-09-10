@@ -66,5 +66,12 @@ describe LD::Form::Checkbox, "#options" do
   it "引数にSetを与えると、その中の文字列型の要素を全て選択肢として追加する" do
     expect(@checkbox.options(@set).length).to eq 4
   end
+
+  it "引数に追加したい選択肢を可変個指定できる" do
+    expect(@checkbox.options.length).to eq 0
+    expect(@checkbox.options("a", "b").length).to eq 2
+    expect(@checkbox.options("c").length).to eq 3
+    expect(@checkbox.options("d", "f", "g", "h", "i").length).to eq 8
+  end
 end
 

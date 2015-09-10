@@ -11,10 +11,14 @@ module LD
         @options = Set.new
       end
 
-      def options(new_options=nil)
-        new_options = [new_options] unless  new_options.is_a?(Array) || new_options.is_a?(Set)
+      def options(*new_options)
+        new_options = new_options.flatten
         new_options.each{|i|
-          self.option(i)
+          if i.is_a?(Set)
+            self.options(i.to_a)
+          else
+            self.option(i)
+          end
         }
         return @options
       end
