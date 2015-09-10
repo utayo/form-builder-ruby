@@ -67,6 +67,12 @@ describe LD::Form::Option, "#add_parent" do
     @option.add_parent(@item_a)
     expect(@option.parents.length).to eq 1
   end  
+
+  it "追加された設問を持つFormオブジェクトの options 属性に追加される" do
+    expect(@item_a.parent.options.include?(@option)).to be false
+    @option.add_parent(@item_a)
+    expect(@item_a.parent.options.include?(@option)).to be true
+  end
   
 end
 

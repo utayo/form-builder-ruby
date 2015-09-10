@@ -2,6 +2,7 @@ module LD
   class Form
     require "uri"    
     require "set"
+    require "ld/form/item"
 
     class Option
       
@@ -24,7 +25,10 @@ module LD
       end
 
       def add_parent(item)
-        @parents.add(item)
+        if item.is_a?(LD::Form::Item)
+          @parents.add(item)
+          item.parent.options(self) if item.parent
+        end
       end
       
     end
