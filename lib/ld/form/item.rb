@@ -1,7 +1,9 @@
 module LD
   class Form
+    require "ld/form/serializable"
 
     class Item
+      include Serializable
       attr_reader :parent
 
       def initialize(form, title=nil)
