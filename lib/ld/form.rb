@@ -1,11 +1,15 @@
 module LD
   require "uri"
+  require "set"
+  require "ld/form/option_managable"
 
   class Form
+    include OptionManagable
 
     def initialize(title)
       @title = title
       @items = []
+      @options = Set.new
     end
     
     def url=(url)

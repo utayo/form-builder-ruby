@@ -50,3 +50,21 @@ describe LD::Form, "::create" do
 
 end
 
+describe LD::Form, "::options" do
+  before :each do
+    @form = LD::Form.new("new form")
+  end
+
+  it "Set のインスタンスを返す" do
+    expect(@form.options.is_a?(Set)).to be true
+  end
+
+  it "引数に配列を指定することで、要素を選択肢として追加できる" do
+    expect(@form.options(["a", "b", "c", "d"]).length).to eq 4
+  end
+
+  it "引数に集合を指定することで、要素を選択肢として追加できる" do
+    expect(@form.options(Set.new(["a", "b", "c", "d"])).length).to eq 4
+  end
+  
+end
