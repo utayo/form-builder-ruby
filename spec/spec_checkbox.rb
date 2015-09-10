@@ -7,7 +7,11 @@ require "ld/form/option"
 describe LD::Form::Checkbox, "::new" do
 
   before :all do
-    @form = LD::Form.new("new form")
+    @form = LD::Form.create do
+      title "new form"
+      url "http://example.com/"
+    end
+
     @checkbox = LD::Form::Checkbox.new(@form, "a checkbox")
   end
 
@@ -20,7 +24,10 @@ end
 describe "LD::Form::Checkbox", "#option" do
 
   before :each do
-    @form = LD::Form.new("new form")
+    @form = LD::Form.create do
+      title "new form"
+      url "http://example.com/"
+    end
     @checkbox = LD::Form::Checkbox.new(@form, "a checkbox")
     @option_a = LD::Form::Option.new("option_a")
     @option_b = LD::Form::Option.new("option_b")
@@ -49,7 +56,10 @@ end
 
 describe LD::Form::Checkbox, "#options" do
   before :each do
-    @form = LD::Form.new("new form")
+    @form = LD::Form.create do
+      title "new form"
+      url "http://example.com/"
+    end
     @checkbox = LD::Form::Checkbox.new(@form, "a checkbox")
     @options_array = ["a", "b", "c", "d"]
     @set = Set.new(["e", "f", "g", "h"])
@@ -75,3 +85,33 @@ describe LD::Form::Checkbox, "#options" do
   end
 end
 
+describe LD::Form::Checkbox, "#to_h" do
+  before :all do
+    @form = LD::Form.create do
+      title "new form"
+      url "http://example.com/"
+    end
+    @checkbox = LD::Form::Checkbox.new(@form, "a checkbox")
+    @checkbox.options("a", "b", "c", "d")
+    
+    @hash = @checkbox.to_h
+  end
+
+  it "返り値の:title属性にタイトルが代入されている" do
+    expect(@hash[:title]).to eq @checkbox.title
+  end
+
+  it ":options属性に、その設問の選択肢集合が代入されている" do
+    expect(@hash[:options]).to be_an_instance_of(Hash)
+    expect(@hash[:options][:type]).to eq @checkbox.options.class.to_s
+    expect(@hash[:options][:items]).to be_an_instance_of(Array)
+    expect(@hash[:options][:items].length).to be 4
+
+    @form.options.map{|i|
+      i.url
+    }.each{|url|
+      expect(@hash[:options][:items].include?(url)).to be true       
+    }
+  end
+
+end

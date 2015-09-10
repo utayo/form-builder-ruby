@@ -13,6 +13,18 @@ module LD
         @options = Set.new
       end
 
+      def to_h
+        hash = super
+        hash[:title] = @title
+        hash[:options] = {
+          type: @options.class.to_s,
+          items: @options.map{|i|
+            i.url
+          }
+        }
+        return hash
+      end
+
       alias :choices :options
       alias :choice :option
     end
