@@ -47,6 +47,7 @@ describe LD::Form::Option, "#add_parent" do
 
   before :each do
     @form = LD::Form.new("new form")
+    @form.url = "http://example.com/"
     @item_a = LD::Form::Item.new(@form, "A")
     @item_b = LD::Form::Item.new(@form, "B")    
     @option = LD::Form::Option.new("option a")
@@ -79,6 +80,7 @@ end
 describe LD::Form::Option, "#parents" do
   before :each do
     @form = LD::Form.new("new form")
+    @form.url = "http://example.com/"
     @item_a = LD::Form::Item.new(@form, "A")
     @item_b = LD::Form::Item.new(@form, "B")    
     @option = LD::Form::Option.new("option a")
@@ -94,3 +96,4 @@ describe LD::Form::Option, "#parents" do
     expect(@option.parents.is_a?(Set)).to be true
   end
 end
+
