@@ -3,8 +3,10 @@ module LD
     require "uri"    
     require "set"
     require "ld/form/item"
+    require "ld/form/serializable"
 
     class Option
+      include Serializable
       
       attr_reader :label, :parents
       
@@ -30,6 +32,16 @@ module LD
           item.parent.options(self) if item.parent
         end
       end
+
+      def to_h
+        hash = super
+        hash[:label] = @label
+        hash[:refered_from] = {
+          type: @parents.class.to_s,
+          items: @parents.map{|p| p.url}
+        }
+        return hash
+      end        
       
     end
   end

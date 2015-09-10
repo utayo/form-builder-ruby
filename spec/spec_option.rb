@@ -97,3 +97,32 @@ describe LD::Form::Option, "#parents" do
   end
 end
 
+
+describe LD::Form::Option, "#to_h" do
+
+  before :all do
+    @form = LD::Form.new("new form")
+    @form.url = "http://example.com/"
+    @item_a = LD::Form::Item.new(@form, "A")
+    @item_b = LD::Form::Item.new(@form, "B")    
+    @option = LD::Form::Option.new("option a")
+    @option.add_parent(@item_a)
+    @option.add_parent(@item_b)
+    
+    @hash = @option.to_h
+  end
+
+  it ":label属性に Option#labelの値が代入されている" do
+    expect(@hash[:label]).to eq @option.label
+  end
+
+  it ":refered_from属性に、その選択肢を参照している設問のオブジェクトが代入されている" do
+    expect(@hash[:refered_from]).to be_an_instance_of(Hash)
+    expect(@hash[:refered_from][:type]).to eq @option.parents.class.to_s
+    expect(@hash[:refered_from][:items]).to be_an_instance_of(Array)
+    expect(@hash[:refered_from][:items].length).to be 2
+    expect(@hash[:refered_from][:items].include?(@item_a.url)).to be true 
+    expect(@hash[:refered_from][:items].include?(@item_b.url)).to be true  
+  end
+  
+end
