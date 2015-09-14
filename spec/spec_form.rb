@@ -68,3 +68,23 @@ describe LD::Form, "::options" do
   end
   
 end
+
+describe LD::Form, "#to_h" do
+  
+  before :all do
+    @form = LD::Form.create do
+      title "new form"
+      url "http://www.example.com/new_form"
+    end
+    @hash = @form.to_h
+  end
+
+  it "url属性を持っており、指定したURLが代入されている" do
+    expect(@hash[:url]).to eq @form.url
+  end
+
+  it "title属性には、Formオブジェクトで指定されたタイトルが代入されている" do
+    expect(@hash[:title]).to eq @form.title
+  end
+
+end

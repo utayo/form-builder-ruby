@@ -23,3 +23,5 @@ form = LD::Form.create do
 end
 
 puts form.to_json
+
+p form.to_rdf
