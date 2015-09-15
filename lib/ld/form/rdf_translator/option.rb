@@ -12,7 +12,7 @@ module LD
             if target.is_a?(LD::Form::Option)
               subject = RDF::Resource.new(target.url)
               result << [subject, RDF::RDFS.label, target.label]
-              result << [subject, RDF.type, 
+              result << [subject, RDF.type, LD::Form::RDFTranslator::Vocabulary.
             end
             result
             }

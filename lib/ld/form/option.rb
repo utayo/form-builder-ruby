@@ -2,8 +2,10 @@ module LD
   class Form
     require "uri"    
     require "set"
+    require "rdf"
     require "ld/form/item"
     require "ld/form/serializable"
+    require "ld/form/rdf_translator"
 
     class Option
       include Serializable
@@ -42,6 +44,30 @@ module LD
         }
         return hash
       end        
+
+      def to_rdf
+        graph = RDF::Graph.new
+
+        about = RDF::Resource.new(@url)
+
+        graph << [about, RDF::RDFS.label, @label]
+        graph << [about, RDF.type, RDFTranslator::Vocabulary::Option.type]
+
+        if(@parents.length > 0)
+          bag = RDF::Resource.new        
+          graph << [about, RDFTranslator::Vocabulary::Option.refered_from, bag]
+          graph << [bag, RDF.type, RDF.Bag]
+
+          parents = @parents.to_a
+          parents.length.times do |i|
+            method_name=  "_#{i+1}"
+            graph <<  [bag, RDF.send(method_name), RDF::Resource.new(parents[i])]
+          end
+        end
+        p graph
+
+        return graph
+      end
       
     end
   end

@@ -2,7 +2,6 @@ module LD
   require "uri"
   require "set"
   require "ld/form/option_managable"
-  require "ld/form/rdf/factory.rb"
   require "ld/form/serializable"
   require "ld/form/checkbox.rb"
 

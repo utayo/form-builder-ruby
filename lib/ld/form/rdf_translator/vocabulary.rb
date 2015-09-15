@@ -1,20 +1,12 @@
 module LD
   class Form
-    module RDF
+    class RDFTranslator
       require "rdf"
-      
       module Vocabulary
-
-        TABLE = {
-          title: ::RDF::DC.title
-        }
-
-        def lookup(attribute)
-          p TABLE[attribute]
-          return TABLE[attribute]
-        end
-        
+        BASE = "http://www.tom.sfc.keio.ac.jp/maff/2015/form/"
       end
     end
   end
 end
+
+require "ld/form/rdf_translator/vocabulary/option"

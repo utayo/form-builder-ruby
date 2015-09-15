@@ -4,6 +4,7 @@ require "ld/form/item"
 require "ld/form/option"
 require "uri"
 require "set"
+require "rdf"
 
 describe "LD::Form::Option", "#label" do
 
@@ -125,4 +126,22 @@ describe LD::Form::Option, "#to_h" do
     expect(@hash[:refered_from][:items].include?(@item_b.url)).to be true  
   end
   
+end
+
+describe LD::Form::Option, "#to_rdf" do
+  before :all do
+    @form = LD::Form.new("new form")
+    @form.url = "http://example.com/"
+    @item_a = LD::Form::Item.new(@form, "A")
+    @item_b = LD::Form::Item.new(@form, "B")    
+    @option = LD::Form::Option.new("option a")
+    @option.add_parent(@item_a)
+    @option.add_parent(@item_b)
+    @graph = @option.to_rdf
+  end
+
+  it "RDF::Graphを返す" do
+    p @graph.to_a
+    expect(@graph).to be_an_instance_of(RDF::Graph)
+  end
 end
