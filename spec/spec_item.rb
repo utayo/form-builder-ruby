@@ -5,6 +5,7 @@ require "ld/form/item"
 describe LD::Form::Item, "#parent" do
   before :all do
     @form = LD::Form.new("form")
+    @form.url = "http://example.com/form"
     @item = LD::Form::Item.new(@form, "hogehoge")
   end
 
@@ -17,6 +18,7 @@ end
 describe LD::Form::Item, "#title" do
   before :all do
     @form = LD::Form.new("form")
+    @form.url = "http://example.com/form"
     @title = "test title"
     @item = LD::Form::Item.new(@form, @title)
   end
@@ -29,6 +31,7 @@ end
 describe LD::Form::Item, "#url" do
   before :all do
     @form = LD::Form.new("form")
+    @form.url = "http://example.com/form"
 
     @url = "https://example.com/endpoint"
     @item = LD::Form::Item.new(@form, "title")
@@ -48,6 +51,8 @@ end
 describe LD::Form::Item, "::create" do
   before :all do
     @form = LD::Form.new("form")
+    @form.url = "http://example.com/form"
+
     @title = "new title"
     @url = "https://exmaple.com/hoge"
 
