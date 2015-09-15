@@ -3,11 +3,14 @@ module LD
   require "set"
   require "ld/form/option_managable"
   require "ld/form/serializable"
+  require "ld/form/rdf_serializable"
+  require "ld/form/item"
   require "ld/form/checkbox.rb"
 
   class Form
     include OptionManagable
     include Serializable
+    include RDFSerializable
 
     def initialize(title)
       @title = title
@@ -47,11 +50,19 @@ module LD
 
     def checkbox(&block)
       product = LD::Form::Checkbox.new(self)
-      @items.push(product)
-      product.url = create_url_from(@items_base_url, "/#{@items.length}")
+      self.add_item(product)
       product.instance_eval(&block)
       return product
     end
+
+    def add_item(item)
+      @items.push(item) if item.is_a?(LD::Form::Item)
+      item.url = create_url_from(@items_base_url, "/#{@items.length}") unless item.url
+    end
+
+    def in_items?(item)
+      return @items.include?(item)
+    end    
 
     def to_h
       hash = super
@@ -65,12 +76,13 @@ module LD
       return hash
     end
 
-    def to_rdf(force=false)
-      return @factory.graph if @factory && !force
+    def to_rdf
+      graph = super
+      about = RDF::Resource.new(@url)
 
-      @factory = LD::Form::RDF::Factory.new
-      @factory.add_resource(self.to_h)
-      return @factory.graph
+      graph << [about, RDF::Vocab::DC.title, @title]
+      graph << [about, RDF.type, RDFFactory::Vocabulary::Form.type]
+      graph << [about, RDF::Vocabularry::Form.options, to_rdf_as_bag(graph, options)]
     end
 
     class << self
