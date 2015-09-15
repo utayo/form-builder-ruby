@@ -1,9 +1,11 @@
 module LD
   class Form
     require "ld/form/serializable"
-
+    require "ld/form/rdf_serializable"
+    
     class Item
       include Serializable
+      include RDFSerializable
       attr_reader :parent
 
       def initialize(form, title=nil)
