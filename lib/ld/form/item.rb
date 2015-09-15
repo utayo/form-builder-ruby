@@ -11,6 +11,7 @@ module LD
       def initialize(form, title=nil)
         @parent = form
         @title = title
+        @parent.add_item(self) unless @parent.in_items?(self)
       end
 
       def url=(url)
