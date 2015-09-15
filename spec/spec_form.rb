@@ -53,6 +53,7 @@ end
 describe LD::Form, "::options" do
   before :each do
     @form = LD::Form.new("new form")
+    @form.url = "http://www.example.com/a"
   end
 
   it "Set のインスタンスを返す" do
