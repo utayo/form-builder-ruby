@@ -10,3 +10,5 @@ module LD
 end
 
 require "ld/form/rdf_translator/vocabulary/option"
+require "ld/form/rdf_translator/vocabulary/item"
+

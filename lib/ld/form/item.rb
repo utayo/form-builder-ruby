@@ -2,6 +2,7 @@ module LD
   class Form
     require "ld/form/serializable"
     require "ld/form/rdf_serializable"
+    require "ld/form/rdf_translator/vocabulary"
     
     class Item
       include Serializable
@@ -31,6 +32,14 @@ module LD
       def title(title=nil)
         self.title = title if title
         return @title
+      end
+
+      def to_rdf
+        graph = super
+        about = self.resource
+
+        graph << [about, RDFTranslator::Vocabulary::Item.title, @title] if @title
+        graph << [about, RDFTranslator::Vocabulary::Item.parent, @parent] if @parent
       end
 
       class << self

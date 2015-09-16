@@ -7,6 +7,11 @@ module LD
       def to_rdf
         return RDF::Graph.new
       end
+      
+      def resource
+        return RDF::Resource.new(@url) if @url
+        return nil
+      end
 
       protected
       def to_rdf_as_bag(graph, bag)
