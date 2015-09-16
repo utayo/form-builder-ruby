@@ -25,6 +25,16 @@ module LD
         return hash
       end
 
+      def to_rdf
+        graph = super
+        about = self.resource
+        graph << [about, RDF.type, RDFTranslator::Vocabulary::Checkbox.type]
+        graph << [about, RDFTranslator::Vocabulary::Checkbox.options, to_rdf_as_bag(graph, @options.map{|i|
+                                                                                      i.url
+                                                                                    })]
+        return graph
+      end
+
       alias :choices :options
       alias :choice :option
     end
