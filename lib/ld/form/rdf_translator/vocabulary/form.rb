@@ -5,14 +5,18 @@ module LD
       module Vocabulary
         class Form
           @@type  = RDF::Resource.new(BASE + "form")
-          @@refered_from = @@type + "#has_options"
+          @@has_options = @@type + "#has_options"
+          @@has_items = @@type + "#has_items"
           
           class << self
             def type
               return @@type
             end
             def options
-              return @@refered_from
+              return @@has_options
+            end
+            def items
+              return @@has_items
             end
           end
 

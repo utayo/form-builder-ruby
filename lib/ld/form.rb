@@ -7,6 +7,10 @@ module LD
   require "ld/form/item"
   require "ld/form/checkbox.rb"
 
+  require "rdf"
+  require "rdf/vocab"
+  require "ld/form/rdf_translator/vocabulary"
+
   class Form
     include OptionManagable
     include Serializable
@@ -81,8 +85,10 @@ module LD
       about = RDF::Resource.new(@url)
 
       graph << [about, RDF::Vocab::DC.title, @title]
-      graph << [about, RDF.type, RDFFactory::Vocabulary::Form.type]
-      graph << [about, RDF::Vocabularry::Form.options, to_rdf_as_bag(graph, options)]
+      graph << [about, RDF.type, RDFTranslator::Vocabulary::Form.type]
+      graph << [about, RDFTranslator::Vocabulary::Form.options, to_rdf_as_bag(graph, @options)]
+      graph << [about, RDFTranslator::Vocabulary::Form.items, to_rdf_as_bag(graph, @items)]
+      return graph
     end
 
     class << self

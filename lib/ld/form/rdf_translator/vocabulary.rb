@@ -11,4 +11,4 @@ end
 
 require "ld/form/rdf_translator/vocabulary/option"
 require "ld/form/rdf_translator/vocabulary/item"
-
+require "ld/form/rdf_translator/vocabulary/form"
