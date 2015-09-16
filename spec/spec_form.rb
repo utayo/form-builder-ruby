@@ -1,5 +1,6 @@
 # coding: utf-8
 require "ld/form"
+require "rdf"
 
 describe LD::Form, "#title" do
 
@@ -86,6 +87,27 @@ describe LD::Form, "#to_h" do
 
   it "title属性には、Formオブジェクトで指定されたタイトルが代入されている" do
     expect(@hash[:title]).to eq @form.title
+  end
+
+end
+
+describe LD::Form, "#to_rdf" do
+  before :all do
+    @form = LD::Form.create do
+      title "ビールに関するアンケート"
+      url "http://example.com/questionaries/beer"
+
+      checkbox do
+        title "飲酒の頻度を教えてください"
+        options "毎日", "週に2、3度", "週に1度", "月に2、3度", "月に1度以下"
+      end
+    end
+    @graph = @form.to_rdf
+  end
+
+  it "RDF::Graphを返す" do
+    p @graph.to_a
+    expect(@graph).to be_an_instance_of RDF::Graph
   end
 
 end
