@@ -106,7 +106,6 @@ describe LD::Form, "#to_rdf" do
   end
 
   it "RDF::Graphを返す" do
-    p @graph.to_a
     expect(@graph).to be_an_instance_of RDF::Graph
   end
 
