@@ -1,5 +1,7 @@
 # coding: utf-8
 require "ld/form"
+require "ld/visualization/dot"
+require "erb"
 
 form = LD::Form.create do
   title "ビールに関するアンケート"
@@ -22,6 +24,4 @@ form = LD::Form.create do
 
 end
 
-puts form.to_json
-
-p form.to_rdf
+puts LD::Visualization::Dot.translate(form.to_rdf)
