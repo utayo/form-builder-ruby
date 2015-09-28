@@ -1,10 +1,21 @@
 # coding: utf-8
-require "ld/form"
+require "../lib/ld/form"
 
-form = LD::Form.create("お酒に関するアンケート");
-form.set_url("https://example.com/foo/bar");
+#form = LD::Form.create("お酒に関するアンケート")
+form = LD::Form.create do
+	initialize "お酒に関するアンケート"
+end
+form.url("https://example.com/foo/bar");
+
+
+print("URL:")
+puts(form.url)
+
+print("TITLE:")
+puts(form.title)
 
 item = form.add_checkbox
+
 item.setTitle("一番よく飲むお酒を教えてください");
 item.setChoices([
                   "ビール",
@@ -13,6 +24,7 @@ item.setChoices([
                   "ウィスキー"
                 ]);
 
+=begin
 form.add_checkbox do
   title "一番好きな好きなビールのスタイルを教えてください"
   choices ["ラガー", "エール", "ポーター", "スタウト"]
@@ -27,5 +39,5 @@ form.add_multiple_choice do
   choice "IPA"
   other true
 end
-
+=end
 puts form.to_jsonld

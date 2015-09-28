@@ -7,7 +7,7 @@ module LD
       @title = title
       @items = []
     end
-    
+		
     def url=(url)
       url = URI.parse(url) unless url.is_a?(URI)
       @url = url
@@ -26,6 +26,8 @@ module LD
       self.title = title if title
       return @title
     end
+
+	 
 
     class << self
       def create(&block)
