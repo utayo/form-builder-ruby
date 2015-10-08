@@ -5,7 +5,10 @@ module LD
   require "ld/form/serializable"
   require "ld/form/rdf_serializable"
   require "ld/form/item"
-  require "ld/form/checkbox.rb"
+  require "ld/form/checkbox"
+  require "ld/form/multiple_choice"
+  require "ld/form/text_area"
+  require "ld/form/number_field"
 
   require "rdf"
   require "rdf/vocab"
@@ -53,10 +56,19 @@ module LD
     end
 
     def checkbox(&block)
-      product = LD::Form::Checkbox.new(self)
-      self.add_item(product)
-      product.instance_eval(&block)
-      return product
+      return create_item(LD::Form::Checkbox, &block)
+    end
+
+    def multiple_choice(&block)
+      return create_item(LD::Form::MultipleChoice, &block)
+    end
+
+    def text_area(&block)
+      return create_item(LD::Form::TextArea, &block)
+    end
+
+    def number_field(&block)
+      return create_item(LD::Form::NumberField, &block)
     end
 
     def add_item(item)
@@ -90,6 +102,15 @@ module LD
       graph << [about, RDFTranslator::Vocabulary::Form.items, to_rdf_as_bag(graph, @items)]
       return graph
     end
+
+    private
+    def create_item(klass, &block)
+      product = klass.new(self)
+      self.add_item(product)
+      product.instance_eval(&block)
+      return product
+    end
+      
 
     class << self
       def create(&block)
