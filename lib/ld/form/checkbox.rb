@@ -28,8 +28,8 @@ module LD
       def to_rdf
         graph = super
         about = self.resource
-        graph << [about, RDF.type, RDFTranslator::Vocabulary::Checkbox.type]
-        graph << [about, RDFTranslator::Vocabulary::Checkbox.options, to_rdf_as_bag(graph, @options.map{|i|
+        graph << [about, RDF.type, vocabulary.type]
+        graph << [about, vocabulary.options, to_rdf_as_bag(graph, @options.map{|i|
                                                                                       i.url
                                                                                     })]
         return graph
