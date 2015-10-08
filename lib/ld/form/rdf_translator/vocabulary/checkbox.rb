@@ -3,7 +3,8 @@ module LD
     class RDFTranslator
       require "rdf"
       module Vocabulary
-        class Checkbox
+
+        class Checkbox < Item
           @@type  = RDF::Resource.new(BASE + "checkbox")
           @@has_options = @@type + "#has_options"
 

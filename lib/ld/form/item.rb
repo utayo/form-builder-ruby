@@ -44,7 +44,7 @@ module LD
 
       protected
       def vocabulary
-        return ("RDFTranslator::Vocabulary::" + self.class.to_s.gsub(/([^:]+::)+/, "")).to_sym
+        return eval("RDFTranslator::Vocabulary::" + self.class.to_s.gsub(/([^:]+::)+/, ""))
       end
 
       class << self
