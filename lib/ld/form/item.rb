@@ -38,8 +38,13 @@ module LD
         graph = super
         about = self.resource
 
-        graph << [about, RDFTranslator::Vocabulary::Item.title, @title] if @title
-        graph << [about, RDFTranslator::Vocabulary::Item.parent, @parent] if @parent
+        graph << [about, vocabulary.title, @title] if @title
+        graph << [about, vocabulary.parent, @parent] if @parent
+      end
+
+      protected
+      def vocabulary
+        return ("RDFTranslator::Vocabulary::" + self.class.to_s.gsub(/([^:]+::)+/, "")).to_sym
       end
 
       class << self
