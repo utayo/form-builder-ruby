@@ -12,4 +12,5 @@ end
 require "ld/form/rdf_translator/vocabulary/option"
 require "ld/form/rdf_translator/vocabulary/item"
 require "ld/form/rdf_translator/vocabulary/checkbox"
+require "ld/form/rdf_translator/vocabulary/number_field"
 require "ld/form/rdf_translator/vocabulary/form"
