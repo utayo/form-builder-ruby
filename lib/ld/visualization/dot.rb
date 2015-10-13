@@ -1,4 +1,5 @@
 module LD::Visualization
+  require "erb"
   class Dot
     class << self
 
