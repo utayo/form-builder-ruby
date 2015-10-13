@@ -4,7 +4,8 @@ module LD
     
     class TextArea < Item
 
-      def initialize
+      def initialize(form, title=nil)
+        super(form, title)
         @min_length = nil
         @max_length = nil
       end
@@ -26,6 +27,14 @@ module LD
       def max_length=(length)
         @max_length = length if is_valid_length?(length) && is_greater_than_min_length?(length)
       end      
+
+      def to_rdf
+        graph = super
+        about = self.resource
+        graph << [about, vocabulary.max_length, @max_length]
+        graph << [about, vocabulary.min_length, @min_length]
+        return graph
+      end
 
       protected
       def is_valid_length?(length)
