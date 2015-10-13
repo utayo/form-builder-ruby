@@ -3,51 +3,68 @@ module LD
     require "ld/form/item"
     
     class NumberField < Item
+      @@available_types = [:integer, :float]
 
-      def initialize
-        @answer_type = Fixnum
-        @min_value = 0
-        @max_value = 10
+      def initialize(form, title=nil)
+        super(form, title)
+        @answer_type = :integer
+        @min = 0
+        @max = 10
       end
 
-      def min_number(number=nil)
-        min_number=(number) if number
-        return @min_number
+      def allows(t=nil)
+        allows=(t) if t
+        return @answer_type
       end
 
-      def min_number=(number)
-        @min_number = normalize_value(number) if is_valid_number?(number)
+      def allows=(t)
+        t = t.to_sym
+        @answer_type = t if available_type?(t)
       end
 
-      def max_number(lenth=nil)
-        min_number=(number) if number
-        return @max_number
+      def min(number=nil)
+        min=(number) if number
+        return @min
       end
 
-      def max_number=(number)
-        @max_number = normalize_value(number) if is_valid_number?(number) && is_greater_than_min_number?(number)
+      def min=(number)
+        @min = normalize_value(number) if is_valid_number?(number)
+      end
+
+      def max(number=nil)
+        min=(number) if number
+        return @max
+      end
+
+      def max=(number)
+        @max = normalize_value(number) if is_valid_number?(number) && is_greater_than_min?(number)
       end      
 
       protected
       def is_valid_number?(number)
-        return number.is_a?(Fixnum)
+        return number.is_a?(:integer)
       end
 
-      def is_greater_that_min_number?(number)
-        return @min_number == nil || @min_number <= number
+      def is_greater_than_min?(number)
+        return @min == nil || @min <= number
       end
 
       def allow_integer_only?
-        return @answer_type == Fixnum
+        return @answer_type == :integer
       end
 
       def allow_float?
-        return @answer_type == Float
+        return @answer_type == :float
       end
 
       def normalize_value(number)
         return number.floor if allow_integer_only?
         return number
+      end
+
+      private
+      def available_type?(t)
+        return @@available_types.index(t) != nil
       end
 
     end
