@@ -1,7 +1,6 @@
 # coding: utf-8
 require "ld/form"
 require "ld/visualization/dot"
-require "erb"
 
 form = LD::Form.create do
   title "ビールに関するアンケート"
@@ -22,6 +21,17 @@ form = LD::Form.create do
     options "ラガー", "エール", "ポーター", "スタウト", "IPA", "ヴァイツェン"
   end
 
+  number_field do
+    title "一度に飲む量をパイントで教えてください"
+    min 0
+    max 100
+  end
+
+  text_area do
+    title "ビールに対する愛を叫んでください！"
+  end
+
 end
 
-puts LD::Visualization::Dot.translate(form.to_rdf)
+graph = form.to_rdf
+
