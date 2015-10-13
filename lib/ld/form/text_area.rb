@@ -31,8 +31,8 @@ module LD
       def to_rdf
         graph = super
         about = self.resource
-        graph << [about, vocabulary.max_length, @max_length]
-        graph << [about, vocabulary.min_length, @min_length]
+        graph << [about, vocabulary.max_length, @max_length] if @max_length
+        graph << [about, vocabulary.min_length, @min_length] if @min_length
         return graph
       end
 
