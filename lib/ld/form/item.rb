@@ -40,6 +40,7 @@ module LD
 
         graph << [about, vocabulary.title, @title] if @title
         graph << [about, vocabulary.parent, @parent] if @parent
+        return graph
       end
 
       protected
