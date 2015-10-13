@@ -3,7 +3,7 @@ module LD
     class RDFTranslator
       module Vocabulary
         require "rdf"
-        class NumberField
+        class NumberField < Item
           @@type = RDF::Resource.new(BASE + "number_field")
           @@min = @@type + "#min"
           @@max = @@type + "#max"
