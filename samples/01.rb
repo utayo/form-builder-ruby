@@ -1,6 +1,7 @@
 # coding: utf-8
 require "ld/form"
 require "ld/visualization/dot"
+require "json/ld"
 
 form = LD::Form.create do
   title "ビールに関するアンケート"
@@ -34,4 +35,4 @@ form = LD::Form.create do
 end
 
 graph = form.to_rdf
-
+p graph.dump(:jsonld)
