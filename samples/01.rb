@@ -3,20 +3,18 @@ require "../lib/ld/form"
 
 #form = LD::Form.create("お酒に関するアンケート")
 form = LD::Form.create do
+	#title "title"だとitemsが作成されない？
 	initialize "お酒に関するアンケート"
+	url "https://example.com/foo/bar"
 end
-form.url("https://example.com/foo/bar");
 
-
+#確認フェイズ
 print("URL:")
 puts(form.url)
-
 print("TITLE:")
 puts(form.title)
 
-item = form.add_checkbox
-
-item.setTitle("一番よく飲むお酒を教えてください");
+#item.setTitle("一番よく飲むお酒を教えてください");
 item.setChoices([
                   "ビール",
                   "日本酒",

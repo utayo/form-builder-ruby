@@ -27,8 +27,6 @@ module LD
       return @title
     end
 
-	 
-
     class << self
       def create(&block)
         product =  self.new(nil)
