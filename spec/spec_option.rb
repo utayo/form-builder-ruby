@@ -4,6 +4,7 @@ require "ld/form/item"
 require "ld/form/option"
 require "uri"
 require "set"
+require "rdf"
 
 describe "LD::Form::Option", "#label" do
 
@@ -47,6 +48,7 @@ describe LD::Form::Option, "#add_parent" do
 
   before :each do
     @form = LD::Form.new("new form")
+    @form.url = "http://example.com/"
     @item_a = LD::Form::Item.new(@form, "A")
     @item_b = LD::Form::Item.new(@form, "B")    
     @option = LD::Form::Option.new("option a")
@@ -67,12 +69,19 @@ describe LD::Form::Option, "#add_parent" do
     @option.add_parent(@item_a)
     expect(@option.parents.length).to eq 1
   end  
+
+  it "追加された設問を持つFormオブジェクトの options 属性に追加される" do
+    expect(@item_a.parent.options.include?(@option)).to be false
+    @option.add_parent(@item_a)
+    expect(@item_a.parent.options.include?(@option)).to be true
+  end
   
 end
 
 describe LD::Form::Option, "#parents" do
   before :each do
     @form = LD::Form.new("new form")
+    @form.url = "http://example.com/"
     @item_a = LD::Form::Item.new(@form, "A")
     @item_b = LD::Form::Item.new(@form, "B")    
     @option = LD::Form::Option.new("option a")
@@ -86,5 +95,52 @@ describe LD::Form::Option, "#parents" do
 
   it "返り値の方はSetのサブクラス" do
     expect(@option.parents.is_a?(Set)).to be true
+  end
+end
+
+
+describe LD::Form::Option, "#to_h" do
+
+  before :all do
+    @form = LD::Form.new("new form")
+    @form.url = "http://example.com/"
+    @item_a = LD::Form::Item.new(@form, "A")
+    @item_b = LD::Form::Item.new(@form, "B")    
+    @option = LD::Form::Option.new("option a")
+    @option.add_parent(@item_a)
+    @option.add_parent(@item_b)
+    
+    @hash = @option.to_h
+  end
+
+  it ":label属性に Option#labelの値が代入されている" do
+    expect(@hash[:label]).to eq @option.label
+  end
+
+  it ":refered_from属性に、その選択肢を参照している設問のオブジェクトが代入されている" do
+    expect(@hash[:refered_from]).to be_an_instance_of(Hash)
+    expect(@hash[:refered_from][:type]).to eq @option.parents.class.to_s
+    expect(@hash[:refered_from][:items]).to be_an_instance_of(Array)
+    expect(@hash[:refered_from][:items].length).to be 2
+    expect(@hash[:refered_from][:items].include?(@item_a.url)).to be true 
+    expect(@hash[:refered_from][:items].include?(@item_b.url)).to be true  
+  end
+  
+end
+
+describe LD::Form::Option, "#to_rdf" do
+  before :all do
+    @form = LD::Form.new("new form")
+    @form.url = "http://example.com/"
+    @item_a = LD::Form::Item.new(@form, "A")
+    @item_b = LD::Form::Item.new(@form, "B")    
+    @option = LD::Form::Option.new("option a")
+    @option.add_parent(@item_a)
+    @option.add_parent(@item_b)
+    @graph = @option.to_rdf
+  end
+
+  it "RDF::Graphを返す" do
+    expect(@graph).to be_an_instance_of(RDF::Graph)
   end
 end
